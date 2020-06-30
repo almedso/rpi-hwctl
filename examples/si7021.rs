@@ -1,3 +1,7 @@
+//! Measure temperature and humidity
+//!
+//! Run on RaspberryPi with connected si7021 sensor
+
 extern crate i2cdev;
 extern crate si7021;
 extern crate i2csensors;

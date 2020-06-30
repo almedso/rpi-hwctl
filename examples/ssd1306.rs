@@ -1,18 +1,7 @@
 //! Draw a square, circle and triangle on the screen using the `embedded_graphics` crate.
 //!
-//! This example is for the STM32F103 "Blue Pill" board using I2C1.
+//! Run on RaspberryPi Explorer 700 shield with ssd1306 based OLED display
 //!
-//! Wiring connections are as follows for a CRIUS-branded display:
-//!
-//! ```
-//!      Display -> Blue Pill
-//! (black)  GND -> GND
-//! (red)    +5V -> VCC
-//! (yellow) SDA -> PB9
-//! (green)  SCL -> PB8
-//! ```
-//!
-//! Run on a Blue Pill with `cargo run --example graphics_i2c`.
 
 use embedded_graphics::{
     geometry::Point,
@@ -22,7 +11,6 @@ use embedded_graphics::{
     style::PrimitiveStyleBuilder,
 };
 use ssd1306::{prelude::*, Builder};
-use display_interface_spi;
 
 use linux_embedded_hal::{
     spidev::{self, SpidevOptions},
@@ -33,7 +21,6 @@ use linux_embedded_hal::{
 
 fn main() -> Result<(), std::io::Error> {
     // Configure SPI
-    // Settings are taken from
     let mut spi = Spidev::open("/dev/spidev0.0").expect("spidev directory");
     let options = SpidevOptions::new()
         .bits_per_word(8)
@@ -43,14 +30,14 @@ fn main() -> Result<(), std::io::Error> {
     spi.configure(&options).expect("spi configuration");
 
     // Configure Data/Command pin
-    let dc = Pin::new(27); // pin 13 GPIO 27
+    let dc = Pin::new(16);
     dc.export().expect("dc export");
     while !dc.is_exported() {}
     dc.set_direction(Direction::Out).expect("dc Direction");
     dc.set_value(1).expect("dc Value set to 1");
 
     // Configure Reset pin
-    let rst = Pin::new(24); // pin 18 GPIO 24
+    let mut rst = Pin::new(19); // pin 18 GPIO 24
     rst.export().expect("dc export");
     while !rst.is_exported() {}
     rst.set_direction(Direction::Out).expect("rst Direction");
@@ -58,8 +45,10 @@ fn main() -> Result<(), std::io::Error> {
 
     let mut delay = Delay {};
 
-    let interface = display_interface_spi::SPIInterfaceNoCS::new(spi, dc);
-    let mut disp: GraphicsMode<_> = Builder::<DisplaySize128x64>::new().connect(interface).into();
+    let mut disp: GraphicsMode<_> = Builder::new()
+        .with_rotation(DisplayRotation::Rotate180)
+        .connect_spi(spi, dc).into();
+
 
     disp.reset(&mut rst, &mut delay).unwrap();
     disp.init().unwrap();
@@ -103,5 +92,5 @@ fn main() -> Result<(), std::io::Error> {
 
     disp.flush().unwrap();
 
-    loop {}
+    Ok (())
 }

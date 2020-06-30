@@ -7,10 +7,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
 
 [[package]]
-name = "byte-slice-cast"
-version = "0.3.5"
+name = "bme280"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b0a5e3906bcbf133e33c1d4d95afc664ad37fbdb9f6568d8043e7ea8c27d93d3"
+checksum = "bc93357f2a5603736e2c1f1ba8e18e9ec80efa7fdade5d6a37c11362b76363f4"
+dependencies = [
+ "embedded-hal",
+]
 
 [[package]]
 name = "byteorder"
@@ -38,23 +41,6 @@ name = "cfg-if"
 version = "0.1.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4785bdd1c96b2a846b2bd7cc02e86b6b3dbf14e7e53446c4f54c92a361040822"
-
-[[package]]
-name = "display-interface"
-version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "da12a892db5cce95ae247e8803dc653b1a73da3b0450f7983eb518dd54f583cf"
-
-[[package]]
-name = "display-interface-spi"
-version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "94d08c3a1682b166cbcbb4fe009a31a1834ba46c16599bf7a9b3cc7bc31b38b0"
-dependencies = [
- "byte-slice-cast",
- "display-interface",
- "embedded-hal",
-]
 
 [[package]]
 name = "embedded-graphics"
@@ -147,7 +133,7 @@ dependencies = [
 name = "rpi-hwctl"
 version = "0.1.0"
 dependencies = [
- "display-interface-spi",
+ "bme280",
  "embedded-graphics",
  "i2cdev",
  "i2csensors",
