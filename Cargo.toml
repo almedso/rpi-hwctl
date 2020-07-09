@@ -6,6 +6,12 @@ edition = "2018"
 license = "MIT"  # see LICENSE.md
 
 [dependencies]
+# to offer a REST service endpoint
+actix-web = "2.0.0"
+actix-rt = "1.0"
+
+
+# Access the hardware
 linux-embedded-hal = "0.3.0"
 embedded-graphics = "0.6.2"
 bme280 = "0.2.1"  # part of Explorer 700 shield
