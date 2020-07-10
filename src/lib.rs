@@ -3,6 +3,7 @@
 //! Run on RaspberryPi Explorer 700 shield with ssd1306 based OLED display
 //!
 
+#[cfg(target_arch = "arm")]
 use embedded_graphics::{
     geometry::Point,
     pixelcolor::BinaryColor,
@@ -11,17 +12,18 @@ use embedded_graphics::{
     style::PrimitiveStyleBuilder,
 };
 
-[cfg(cargo_target(unix))]
+#[cfg(target_arch = "arm")]
 use ssd1306::{prelude::*, Builder};
 
-[cfg(cargo_target(unix))]
+#[cfg(target_arch = "arm")]
 use linux_embedded_hal::{
     spidev::{self, SpidevOptions},
     sysfs_gpio::Direction,
     Delay, Pin, Spidev,
 };
 
-[cfg(cargo_target(unix))]
+#[cfg(target_arch = "arm")]
+#[allow(dead_code)]
 fn draw_display() -> Result<(), std::io::Error> {
     // Configure SPI
     let mut spi = Spidev::open("/dev/spidev0.0").expect("spidev directory");
