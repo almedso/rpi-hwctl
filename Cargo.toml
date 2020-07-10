@@ -9,9 +9,12 @@ license = "MIT"  # see LICENSE.md
 # to offer a REST service endpoint
 actix-web = "2.0.0"
 actix-rt = "1.0"
-
+failure = "0.1.8"
+log = "0.4.0"
+env_logger = "0.7.1"
 
 # Access the hardware
+[target.'cfg(unix)'.dependencies]
 linux-embedded-hal = "0.3.0"
 embedded-graphics = "0.6.2"
 bme280 = "0.2.1"  # part of Explorer 700 shield
