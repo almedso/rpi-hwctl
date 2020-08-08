@@ -1,4 +1,4 @@
-//! Measure temperature and preasure via BMP280 chip on Explorer 700 schield
+//! Measure temperature and pressure via BMP280 chip on Explorer 700 shield
 //!
 
 use linux_embedded_hal::{Delay, I2cdev};
