@@ -1,5 +1,5 @@
 
-//! Power on user LED on Explorer 700 schield
+//! Power on user LED on Explorer 700 shield
 //!
 use linux_embedded_hal::{
     sysfs_gpio::Direction,

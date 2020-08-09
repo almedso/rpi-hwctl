@@ -11,7 +11,7 @@ use si7021::{Si7021, SI7021_I2C_ADDRESS};
 use i2csensors::{Hygrometer, Thermometer};
 
 fn main() {
-    let device = LinuxI2CDevice::new("/dev/i2c-0", SI7021_I2C_ADDRESS).unwrap();
+    let device = LinuxI2CDevice::new("/dev/i2c-1", SI7021_I2C_ADDRESS).unwrap();
     let mut si7021 = Si7021::new(device);
 
     println!("humidity:    {:6.2} %", si7021.relative_humidity().unwrap());

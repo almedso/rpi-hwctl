@@ -824,7 +824,7 @@ dependencies = [
  "bitflags",
  "byteorder",
  "libc",
- "nix",
+ "nix 0.14.1",
 ]
 
 [[package]]
@@ -1083,6 +1083,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "nix"
+version = "0.17.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "50e4785f2c3b7589a0d0c1dd60285e1188adac4006e8abd6dd578e1567027363"
+dependencies = [
+ "bitflags",
+ "cc",
+ "cfg-if",
+ "libc",
+ "void",
+]
+
+[[package]]
 name = "num-integer"
 version = "0.1.43"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1316,6 +1329,7 @@ dependencies = [
  "i2csensors",
  "linux-embedded-hal",
  "log",
+ "nix 0.17.0",
  "si7021",
  "ssd1306",
 ]
@@ -1491,7 +1505,7 @@ checksum = "aa5aa93a87c20f4efdf494917ef8fb475522601256ba6bb00ad1e6101f779fe9"
 dependencies = [
  "bitflags",
  "libc",
- "nix",
+ "nix 0.14.1",
 ]
 
 [[package]]
@@ -1533,7 +1547,7 @@ version = "0.5.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "24961a55846623d8e4f6cec38718945116fed8d6970336a7110710a07aa9b5d1"
 dependencies = [
- "nix",
+ "nix 0.14.1",
 ]
 
 [[package]]
