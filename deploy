@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# This script copies over an cross-compiled executable and runs it
+# 
+# Args:
+#    $1: full path of the executable
+#
+# Optional environment variables:
+#   TARGET_HOST
+
+
+# This app is cross compiled on a linux system and it is safe to assume bash
+# is available.
+#
+
+set -o errexit
+set -o nounset
+set -o pipefail
+set -o xtrace
+
+readonly TARGET_HOST=${TARGET_HOST:-root@ricardo}
+readonly TARGET_PATH=/usr/bin/
+
+# Copy over the executable
+scp $1 ${TARGET_HOST}:${TARGET_PATH}
+
+# Run the executable on target
+readonly EXECUTABLE=$(basename $1)
+ssh -t ${TARGET_HOST} ${TARGET_PATH}/${EXECUTABLE}
