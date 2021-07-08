@@ -4,8 +4,7 @@ use embedded_graphics::{
     fonts::{Font6x8, Text},
     pixelcolor::BinaryColor,
     prelude::*,
-    // primitives::{Circle, Rectangle, Triangle},
-    style::{PrimitiveStyle, TextStyle},
+    style::{TextStyle},
 };
 
 use ssd1306::{prelude::*, Builder};
