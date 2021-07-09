@@ -8,8 +8,7 @@ use linux_embedded_hal::{
 
 
 fn main() -> Result<(), std::io::Error> {
-    // Configure SPI
-    // Settings are taken from
+
 
     // Configure Led pin
     let dc = Pin::new(26); //
