@@ -6,5 +6,5 @@
 //! https://joy-it.net/en/products/RB-Explorer700
 
 #[cfg(target_arch = "arm")]
+#[cfg(target_os = "linux")]
 pub mod explorer700;
-
