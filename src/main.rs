@@ -1,12 +1,8 @@
 // #[macro_use]
 // extern crate log;
 
-use actix_web::{
-    get, web, App, HttpServer,
-    middleware::Logger,
-    Responder,
-};
 use actix_web::{error, Result};
+use actix_web::{get, middleware::Logger, web, App, HttpServer, Responder};
 use failure::Fail;
 use log::debug;
 
@@ -31,7 +27,6 @@ async fn index(info: web::Path<(u32, String)>) -> impl Responder {
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
-
     std::env::set_var("RUST_LOG", "rpi_hwctl=debug,actix_web=info");
     std::env::set_var("RUST_BACKTRACE", "1");
     env_logger::init();
@@ -41,8 +36,8 @@ async fn main() -> std::io::Result<()> {
             .wrap(Logger::default())
             .route("/error", web::get().to(error))
             .service(index)
-        })
-        .bind("127.0.0.1:8088")?
-        .run()
-        .await
+    })
+    .bind("127.0.0.1:8088")?
+    .run()
+    .await
 }
