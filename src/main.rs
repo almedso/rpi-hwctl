@@ -1,5 +1,4 @@
-use actix_web::{get, web, App, HttpServer, Responder};
-use env_logger;
+use actix_web::{self, get, web, App, HttpServer, Responder};
 use log::{debug, info};
 use std::time::Duration;
 use tokio::{self, time};
@@ -9,22 +8,6 @@ async fn index(path: web::Path<(u32, String)>) -> impl Responder {
     let (id, name) = path.into_inner();
     info!("Hello {}! id:{}", name, id);
     format!("Hello {}! id:{}", name, id)
-}
-
-fn main() {
-    std::env::set_var("RUST_LOG", "rpi_hwctl=debug,actix_web=info");
-    std::env::set_var("RUST_BACKTRACE", "1");
-    env_logger::init();
-
-    actix_web::rt::System::with_tokio_rt(|| {
-        tokio::runtime::Builder::new_multi_thread()
-            .enable_all()
-            .worker_threads(8)
-            .thread_name("main-tokio")
-            .build()
-            .unwrap()
-    })
-    .block_on(async_main());
 }
 
 async fn async_main() {
@@ -51,4 +34,20 @@ async fn async_main() {
     .run()
     .await
     .unwrap()
+}
+
+fn main() {
+    std::env::set_var("RUST_LOG", "rpi_hwctl=debug,actix_web=info");
+    std::env::set_var("RUST_BACKTRACE", "1");
+    env_logger::init();
+
+    actix_web::rt::System::with_tokio_rt(|| {
+        tokio::runtime::Builder::new_multi_thread()
+            .enable_all()
+            .worker_threads(8)
+            .thread_name("main-tokio")
+            .build()
+            .unwrap()
+    })
+    .block_on(async_main());
 }
