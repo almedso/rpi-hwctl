@@ -206,6 +206,7 @@ impl OnOff for Buzzer<'_> {
     }
 }
 
+#[derive(PartialEq, Debug, Clone)]
 pub enum JoystickState {
     Up,
     Down,
@@ -213,6 +214,10 @@ pub enum JoystickState {
     Right,
     NoAction,
 }
+
+
+unsafe impl Send for JoystickState {}
+unsafe impl Sync for JoystickState {}
 
 pub struct Joystick<'a> {
     up: P2<'a, pcf857x::Pcf8574<I2cdev>, LinuxI2CError>,
