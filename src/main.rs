@@ -3,6 +3,13 @@ use log::{debug, info};
 use std::time::Duration;
 use tokio::{self, time};
 
+use rpi_hwctl::local_hmi::{Explorer700Display, HomePage};
+use embedded_multi_page_hmi::{
+    page::{ShutdownPage, StartupPage, TextPage},
+    Interaction, PageBaseInterface, PageInteractionInterface, PageInterface, PageLifetime,
+    PageManager, PageNavigation,
+};
+
 #[get("/{id}/{name}/index.html")]
 async fn index(path: web::Path<(u32, String)>) -> impl Responder {
     let (id, name) = path.into_inner();
@@ -10,16 +17,56 @@ async fn index(path: web::Path<(u32, String)>) -> impl Responder {
     format!("Hello {}! id:{}", name, id)
 }
 
+
+// async fn print_events(m: &mut PageManager<'_, TerminalDisplay>) {
+//     let mut reader = EventStream::new();
+//     let mut navigation = m.dispatch(PageNavigation::SystemStart).unwrap();
+
+//     loop {
+//         let mut delay = Delay::new(Duration::from_millis(1_000)).fuse();
+//         let mut event = reader.next().fuse();
+//         let input: Option<Interaction>;
+
+//         select! {
+//             _ = delay => input  = None ,
+//             maybe_event = event => {
+//                 input = match maybe_event {
+//                     Some(Ok(event)) => map_interaction(event),
+//                     Some(Err(_e)) => None,
+//                     None => None,
+//                 };
+
+//             },
+//         };
+//         let result = match input {
+//             None => m.dispatch(navigation),
+//             Some(interaction) => m.dispatch_interaction(interaction),
+//         };
+//         // in this example shutdown page returns PageError after it's lifetime is over
+//         // this is used for a clean exit
+//         match result {
+//             Err(_e) => break,
+//             Ok(nav) => navigation = nav,
+//         };
+//     }
+// }
+
 async fn async_main() {
     tokio::spawn(async {
+
+        // hmi setup
+        let display = Explorer700Display::new();
+        let home = HomePage::new("!!! This is the home page !!!");
+        let mut pm = PageManager::new(display, Box::new(home));
+        let startup = StartupPage::new("Welcome message", 8);
+        pm.register_startup(Box::new(startup));
+        let mut navigation = pm.dispatch(PageNavigation::SystemStart).unwrap();
         let mut interval = time::interval(Duration::from_millis(1000));
-        let mut tick = 0_u32;
 
         loop {
             interval.tick().await;
-            tick += 1;
-            debug!("Another tick passed: {}", tick);
-            // do_something().await;
+            debug!("Navigation is: {:?}", navigation);
+            navigation = pm.dispatch(navigation).unwrap();
         }
     });
 
