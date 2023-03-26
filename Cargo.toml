@@ -8,11 +8,11 @@ license = "MIT"  # see LICENSE.md
 
 [dependencies]
 # to offer a REST service endpoint
-actix-web = "4.0.0-beta.9"
+actix-web = "4.3.1"
 tokio = {version = "1.9.0", features = ["full"]}
-#failure = "0.1.8"
+# failure = "0.1.8"
 log = "0.4"
-env_logger = "0.9"
+env_logger = "0.10"
 
 [dev-dependencies]
 explorer700 = { path = "./explorer700" }
